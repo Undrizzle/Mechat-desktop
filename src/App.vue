@@ -1,6 +1,6 @@
 <template>
-  <div id="app">
-    <div v-if="isLogin">
+  <div id="app" class="ht100">
+    <div v-if="isLogin" class="ht100">
       <Comm></Comm>
     </div>
 
@@ -26,6 +26,7 @@
 <style>
   html {
     font-family: "Helvetica Neue",Helvetica,"Hiragino Sans GB","Microsoft YaHei","微软雅黑",Arial,sans-serif;
+    height: 100%;
   }
 
   body {
@@ -36,6 +37,7 @@
     justify-content: space-between;
     flex-direction: column;
     min-height: 100vh;
+    height: 100%;
   }
 
   .sign {
@@ -82,4 +84,7 @@
     margin: 0;
   }
 
+  .ht100 {
+    height: 100%
+  }
 </style>

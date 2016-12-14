@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="ht100">
     <div class="main">
       <div class="panel">
         <div class="header">
@@ -14,6 +14,13 @@
               </a>
             </h3>
           </div>
+        </div>
+        <searchBar></searchBar>
+        <tabBar v-on:scl="showChat" v-on:srl="showRead" v-on:sctl="showContact" v-bind:showChats="showChats" v-bind:showReads="showReads" v-bind:showContacts="showContacts"></tabBar>
+        <div class="nav_view">
+          <chatList v-if="showChats"></chatList>
+          <readList v-if="showReads"></readList>
+          <contactList v-if="showContacts"></contactList>
         </div>
         <div id="mmpop_system_menu" class="mmpop system_menu" tabindex="-1" v-if="showSystemMenu">
           <ul class="dropdown_menu">
@@ -85,17 +92,30 @@
 
 <script>
   import feedback from './feedback.vue'
+  import searchBar from './SearchBar.vue'
+  import tabBar from './TabBar.vue'
+  import chatList from './ChatList.vue'
+  import readList from './ReadList.vue'
+  import contactList from './ContactList.vue'
 
   export default {
     components: {
-      feedback
+      feedback,
+      searchBar,
+      tabBar,
+      chatList,
+      readList,
+      contactList
     },
     data() {
       return {
         user_logo: './images/user/bu.jpg',
         showSystemMenu: false,
         showChatroom: false,
-        showFeedback: false
+        showFeedback: false,
+        showChats: true,
+        showReads: false,
+        showContacts: false
       }
     },
     methods: {
@@ -112,6 +132,22 @@
       },
       hiddenFeedback() {
         this.showFeedback = false
+      },
+      showChat() {
+        this.showChats = true
+        this.showReads = false
+        this.showContacts = false
+      },
+      showRead() {
+        console.log('come')
+        this.showChats = false
+        this.showReads = true
+        this.showContacts = false
+      },
+      showContact() {
+        this.showChats = false
+        this.showReads = false
+        this.showContacts = true
       }
     }
 
@@ -502,5 +538,15 @@
     top: 0;
   }
 
+  .nav_view {
+    position: absolute;
+    top: 154px;
+    right: 0;
+    bottom: 0;
+    left: 0;
+  }
 
+  h1 {
+    color: #fff;
+  }
 </style>
