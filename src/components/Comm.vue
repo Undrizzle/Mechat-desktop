@@ -52,6 +52,7 @@
           </ul>
         </div>
       </div>
+      <contentView></contentView>
     </div>
     <div id="ngdialog" class="ngdialog default create_chatroom_dlg" v-if="showChatroom">
       <div class="ngdialog-overlay"></div>
@@ -97,6 +98,7 @@
   import chatList from './ChatList.vue'
   import readList from './ReadList.vue'
   import contactList from './ContactList.vue'
+  import contentView from './ContentView.vue'
 
   export default {
     components: {
@@ -105,7 +107,8 @@
       tabBar,
       chatList,
       readList,
-      contactList
+      contactList,
+      contentView
     },
     data() {
       return {
