@@ -40,16 +40,17 @@
         this.m_top = (document.body.scrollHeight - this.$refs.content.clientHeight - 32) / 2
       },
       send() {
+        let self = this
         let formData = this.suggests
         axios.post('http://127.0.0.1:3000/suggest', {
           username: 'undrizzle',
           advise: this.suggests
         }).then(function (response) {
           console.log(response)
+          self.hiddenFeedback()
         }).catch(function (error) {
           console.log(error)
         })
-        this.hiddenFeedback()
       }
     }
   }

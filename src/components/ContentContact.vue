@@ -15,7 +15,7 @@
                         <h4 class="nickname">单丹蕾</h4>
                         <i class="web_wechat_women"></i>
                     </div>
-                    <p class="signature">?!...。</p>
+                    <p class="signature">? ! ...。</p>
                     <div class="meta_area">
                         <div class="meta_item">
                             <label class="label">备注：</label>
@@ -23,7 +23,11 @@
                         </div>
                         <div class="meta_item">
                             <label class="label">地区：</label>
+                            <p class="value">浙江 杭州</p>
                         </div>
+                    </div>
+                    <div class="action_area">
+                        <a class="button" href="javascript:;">发消息</a>
                     </div>
                 </div>
             </div>
@@ -92,6 +96,66 @@
         width: 100px;
         height: 100px;
         margin: 0 auto;
+        border-radius: 4px;
+    }
+
+    .profile .nickname {
+        font-weight: 400;
+        font-size: 24px;
+        margin-bottom: 10px;
+        display: inline-block;
+    }
+
+    .web_wechat_women {
+        background: url(../images/sprite31e225.png) 0 -2473px;
+        width: 16px;
+        height: 16px;
+        vertical-align: middle;
+        display: inline-block;
+    }
+
+    .profile .signature {
+        font-size: 14px;
+        color: #888;
+    }
+
+    .profile .meta_area {
+        width: 250px;
+        padding-left: 160px;
+        text-align: left;
+        margin: 30px auto 40px;
+    }
+
+    .profile .meta_item {
+        overflow: hidden;
+    }
+
+    .profile .meta_item .label {
+        float: left;
+        font-size: 12px;
+        color: #888;
+        margin-right: 10px;
+    }
+
+    .profile .meta_item .value {
+        font-size: 12px;
+        color: #888;
+        width: 134px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        word-wrap: normal;
+    }
+
+    .profile .button {
+        display: inline-block;
+        width: 200px;
+        text-align: center;
+        color: #fff;
+        line-height: 40px;
+        background-color: #42ac3e;
+        font-size: 14px;
+        text-decoration: none;
         border-radius: 4px;
     }
 </style>

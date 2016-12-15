@@ -76,10 +76,6 @@
     outline: none;
   }
 
-  *,*::before,*::after {
-    box-sizing: border-box;
-  }
-
   body, h1, h2, h3, h4, h5, h6, p, ul, ol, dl, dd, fieldset, textarea {
     margin: 0;
   }
