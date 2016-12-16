@@ -142,7 +142,6 @@
         this.showContacts = false
       },
       showRead() {
-        console.log('come')
         this.showChats = false
         this.showReads = true
         this.showContacts = false
@@ -153,7 +152,6 @@
         this.showContacts = true
       }
     }
-
   }
 </script>
 
@@ -551,5 +549,9 @@
 
   h1 {
     color: #fff;
+  }
+
+  .panel_wrapper {
+    height: 100%;
   }
 </style>
