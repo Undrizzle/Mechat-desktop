@@ -83,4 +83,18 @@
   .ht100 {
     height: 100%
   }
+
+  ::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    border-radius: 3px;
+    background-color: #c3c3c3;
+  }
+
+  ::-webkit-scrollbar-track {
+    background-color: transparent;
+  }
 </style>

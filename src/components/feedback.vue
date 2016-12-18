@@ -100,20 +100,6 @@
     color: #fff;
   }
 
-   ::-webkit-scrollbar {
-     width: 6px;
-     height: 6px;
-   }
-
-  ::-webkit-scrollbar-thumb {
-    border-radius: 3px;
-    background-color: #c3c3c3;
-  }
-
-  ::-webkit-scrollbar-track {
-    background-color: transparent;
-  }
-
   .dialog_ft a[disabled] {
     opacity: .5!important;
     cursor: not-allowed!important;
