@@ -48,6 +48,22 @@
         methods: {
             showExpression() {
                 this.showExp = !this.showExp
+            },
+            getEmoticonByText(e) {
+                let t;
+                if (e.indexOf('<') > -1) {
+                    t = this.QQFaceMap[e]
+                    //return this.genEmoticonHTML("emoji emoji" + t, this.EmojiCodeMap[t])
+                } else {
+                    t = this.QQFaceMap[e.replace(/\[|\]/g, "")]
+                    return this.genEmoticonHTML("qqemoji qqemoji" + t, e)
+                }
+            },
+            genEmoticonHTML(e, t) {
+                return '<img class="' + e + '" text="' + t + (t.indexOf(this.MM_EMOTICON_WEB) > -1 ? "" : this.MM_EMOTICON_WEB) + '" src="' + this.RES_IMG_PLACEHOLDER + '" />'
+            },
+            insertToEditArea(e, o) {
+
             }
         }
     }

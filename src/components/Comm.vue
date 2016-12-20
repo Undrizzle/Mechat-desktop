@@ -4,7 +4,7 @@
       <div class="panel">
         <div class="header">
           <div class="avatar">
-            <img class="img" v-bind:src="user_logo" />
+            <img class="img" :src="avatar" />
           </div>
           <div class="info">
             <h3 class="nickname">
@@ -112,7 +112,7 @@
     },
     data() {
       return {
-        user_logo: './images/user/bu.jpg',
+        avatar: require('../images/user/bu.jpg'),
         showSystemMenu: false,
         showChatroom: false,
         showFeedback: false,
