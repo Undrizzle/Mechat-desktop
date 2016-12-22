@@ -4,7 +4,7 @@
       <div class="panel">
         <div class="header">
           <div class="avatar">
-            <img class="img" :src="avatar" />
+            <img class="img" v-bind:src="avatar" />
           </div>
           <div class="info">
             <h3 class="nickname">
@@ -20,7 +20,7 @@
         <div class="nav_view">
           <chatList v-if="showChats"></chatList>
           <readList v-if="showReads"></readList>
-          <contactList v-if="showContacts"></contactList>
+          <contactItem v-if="showContacts"></contactItem>
         </div>
         <div id="mmpop_system_menu" class="mmpop system_menu" tabindex="-1" v-if="showSystemMenu">
           <ul class="dropdown_menu">
@@ -97,7 +97,7 @@
   import tabBar from './TabBar.vue'
   import chatList from './ChatList.vue'
   import readList from './ReadList.vue'
-  import contactList from './ContactList.vue'
+  import contactItem from './ContactItem.vue'
   import contentView from './ContentView.vue'
 
   export default {
@@ -107,7 +107,7 @@
       tabBar,
       chatList,
       readList,
-      contactList,
+      contactItem,
       contentView
     },
     data() {
