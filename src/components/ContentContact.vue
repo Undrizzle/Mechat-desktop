@@ -6,24 +6,27 @@
             </div>
         </div>
         <div class="box_bd">
-            <div>
+            <div v-if="isEmptyObject(currentChoose)" class="empty">
+                <i class="web_wechat_no_contect"></i>
+            </div>
+            <div v-else>
                 <div class="profile">
                     <div class="avatar">
-                        <img class="img" src="../images/user/jue.jpg">
+                        <img class="img" :src="currentChoose.avatar">
                     </div>
                     <div class="nickname_area">
-                        <h4 class="nickname">单丹蕾</h4>
-                        <i class="web_wechat_women"></i>
+                        <h4 class="nickname">{{ currentChoose.username }}</h4>
+                        <i v-bind:class="{web_wechat_women: currentChoose.sex == 'female', web_wechat_men: currentChoose.sex == 'male'}"></i>
                     </div>
-                    <p class="signature">? ! ...。</p>
+                    <p class="signature">{{ currentChoose.signature }}</p>
                     <div class="meta_area">
                         <div class="meta_item">
                             <label class="label">备注：</label>
-                            <p class="value">单丹蕾</p>
+                            <p class="value">{{ currentChoose.remark }}</p>
                         </div>
                         <div class="meta_item">
                             <label class="label">地区：</label>
-                            <p class="value">浙江 杭州</p>
+                            <p class="value">{{ currentChoose.region }}</p>
                         </div>
                     </div>
                     <div class="action_area">
@@ -31,13 +34,27 @@
                     </div>
                 </div>
             </div>
+
         </div>
     </div>
 </template>
 
 <script>
     export default {
-        name: 'contentContact'
+        name: 'contentContact',
+        computed: {
+            currentChoose() {
+                return this.$store.state.currentChoose
+            }
+        },
+        methods: {
+            isEmptyObject(obj) {
+                for (let key in obj) {
+                    return false
+                }
+                return true
+            }
+        }
     }
 </script>
 
@@ -114,6 +131,14 @@
         display: inline-block;
     }
 
+    .web_wechat_men {
+        background: url(../images/sprite31e225.png) 0 -1254px;
+        width: 16px;
+        height: 16px;
+        vertical-align: middle;
+        display: inline-block;
+    }
+
     .profile .signature {
         font-size: 14px;
         color: #888;
@@ -157,5 +182,20 @@
         font-size: 14px;
         text-decoration: none;
         border-radius: 4px;
+    }
+
+    .box_bd .empty {
+        margin: 50px;
+        text-align: center;
+        color: #888;
+        font-size: 14px;
+    }
+
+    .web_wechat_no_contect {
+        background: url(../images/sprite31e225.png) 0 -1433px;
+        width: 150px;
+        height: 150px;
+        vertical-align: middle;
+        display: inline-block;
     }
 </style>

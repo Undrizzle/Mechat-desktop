@@ -38,12 +38,15 @@ export default {
   methods: {
     showChatList() {
       this.$emit('scl')
+      this.$store.commit('CLICK_CONTACT', 0)
     },
     showReadList() {
       this.$emit('srl')
+      this.$store.commit('CLICK_CONTACT', 1)
     },
     showContactList() {
       this.$emit('sctl')
+      this.$store.commit('CLICK_CONTACT', 2)
     }
   }
 }

@@ -1,7 +1,7 @@
 <template>
     <div class="content_view">
-       <!-- <contentContact></contentContact> -->
-        <contentChat></contentChat>
+        <contentChat v-if="contentIndex == 0"></contentChat>
+        <contentContact v-if="contentIndex == 2"></contentContact>
     </div>
 </template>
 
@@ -14,6 +14,11 @@
         components: {
             contentContact,
             contentChat
+        },
+        computed: {
+            contentIndex() {
+                return this.$store.state.contentIndex
+            }
         }
     }
 </script>

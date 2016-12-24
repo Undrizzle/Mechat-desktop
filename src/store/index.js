@@ -16,7 +16,11 @@ const store = new Vuex.Store({
       show: [],
       ask: [],
       job: []
-    }
+    },
+    currentChoose: {},
+    contentIndex: 0,
+    chatContent: [],
+    currentContact: {}
   },
 
   actions: {
@@ -71,6 +75,14 @@ const store = new Vuex.Store({
 
     SET_USER: (state, { user }) => {
       Vue.set(state.users, user.id, user)
+    },
+
+    CHOOSE_CONTACT: (state, item) => {
+      state.currentChoose = item
+    },
+
+    CLICK_CONTACT: (state, item) => {
+      state.contentIndex = item
     }
   },
 

@@ -4,16 +4,20 @@
             <div id="chatRoomMembersWrap"></div>
             <div class="title_wrap">
                 <div class="title poi">
-                    <a class="title_name">生活不止眼前的苟且,不觉细雨,微微浅冬</a>
-                    <span class="title_count">(3)</span>
-                    <i class="web_wechat_down_icon"></i>
+                    <a class="title_name" ></a>
+                    <span class="title_count"></span>
+                    <i class="web_wechat_down_icon" v-if="currentContact.members"></i>
                 </div>
             </div>
         </div>
         <div class="box_bd chat_bd">
-
+            <div v-if="chatContent.length < 1" class="message_empty">
+                <i class="web_wechat_nomes_icon" v-if="!currentContact.members"></i>
+                <p v-if="currentContact.members">暂时没有消息</p>
+                <p v-if="!currentContact.members">未选择聊天</p>
+            </div>
         </div>
-        <div class="box_ft">
+        <div class="box_ft" v-if="currentContact.members">
             <div class="toolbar" id="tool_bar">
                 <a class="web_wechat_face" href="javascript:;" title="表情" v-on:click="showExpression"></a>
                 <a class="web_wechat_screen" href="javascript:;" title="截屏"></a>
@@ -40,6 +44,14 @@
         data() {
             return {
                 showExp: false
+            }
+        },
+        computed: {
+            chatContent() {
+                return this.$store.state.chatContent
+            },
+            currentContact() {
+                return this.$store.state.currentContact
             }
         },
         components: {
@@ -183,5 +195,20 @@
 
     .btn_send:hover {
         background-color: #f8f8f8;
+    }
+
+    .message_empty {
+        text-align: center;
+        margin-top: 130px;
+        color: #ccc;
+        font-size: 13px;
+    }
+
+    .web_wechat_nomes_icon {
+        background: url(../images/sprite31e225.png) 0 -1332px;
+        width: 100px;
+        height: 90px;
+        vertical-align: middle;
+        display: inline-block;
     }
 </style>
