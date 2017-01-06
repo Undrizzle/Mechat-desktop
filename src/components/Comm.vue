@@ -4,7 +4,7 @@
       <div class="panel">
         <div class="header">
           <div class="avatar">
-            <img class="img" v-bind:src="avatar" />
+            <img class="img" v-bind:src="avatar" v-on:click="showProfile"/>
           </div>
           <div class="info">
             <h3 class="nickname">
@@ -22,71 +22,71 @@
           <readList v-if="showReads"></readList>
           <contactItem v-if="showContacts"></contactItem>
         </div>
-        <div id="mmpop_system_menu" class="mmpop system_menu" tabindex="-1" v-if="showSystemMenu">
-          <ul class="dropdown_menu">
-            <li>
-              <a tabindex="-1" href="javascript:;" title="发起聊天" v-on:click="createChatroom">
-                <i class="menuicon_chat"></i>发起聊天
-              </a>
-            </li>
-            <li>
-              <a tabindex="-1" href="javascript:;" title="关闭桌面通知">
-                <i class="menuicon_push_on"></i>关闭桌面通知
-              </a>
-            </li>
-            <li>
-              <a tabindex="-1" href="javascript:;" title="关闭声音">
-                <i class="menuicon_volume_on"></i>关闭声音
-              </a>
-            </li>
-            <li>
-              <a tabindex="-1" href="javascript:;" title="意见反馈" v-on:click="feedback">
-                <i class="menuicon_feedback"></i>意见反馈
-              </a>
-            </li>
-            <li class="last_child">
-              <a tabindex="-1" href="javascript:;" title="退出">
-                <i class="menuicon_quit"></i>退出
-              </a>
-            </li>
-          </ul>
-        </div>
+
       </div>
       <contentView></contentView>
     </div>
-    <div id="ngdialog" class="ngdialog default create_chatroom_dlg" v-if="showChatroom">
-      <div class="ngdialog-overlay"></div>
-      <div class="ngdialog-content">
-        <div class="dialog_hd">
-          <h3 class="title">发起聊天</h3>
-        </div>
-        <div class="dialog_bd" id="createChatRoomContainer">
-          <ul class="nav_tabs">
-            <li class="nav_tab selected">选择联系人</li>
-            <li class="nav_tab">选择群聊</li>
-          </ul>
-          <div class="">
-            <div class="selector">
-              <div class="input_box">
-                <i class="addchat_searchicon"></i>
-                <input type="text" class="input" placeholder="搜索" autofocus>
-              </div>
+    <div v-if="showChatroom">
+      <createChatroom v-on:hcr="hiddenChatroom"></createChatroom>
+    </div>
+    <div v-if="showFeedback">
+      <feedback v-on:hfb="hiddenFeedback"></feedback>
+    </div>
+    <div v-if="showProfiles" v-bind:style="{ height: '100%' }">
+      <div class="overlay_mask" v-on:click="showProfiles=false"></div>
+      <div id="mmpop_profile" class="mmpop profile_mini_wrap" tabindex="-1"  v-bind:style="{ top: '69px', left: '41px' }">
+        <div class="profile_mini">
+          <div class="profile_mini_hd">
+            <div class="avatar">
+              <img class="img" v-bind:src="contact.avatar" />
             </div>
-            <div class="chooser">
-              <div class="scroll-wrapper contacts scrollbar-dynamic">
-                <div></div>
+          </div>
+          <div class="profile_mini_bd">
+            <div class="nickname_area">
+              <h4 class="nickname">{{ contact.username }}</h4>
+              <i v-bind:class="{web_wechat_women: contact.sex == 'female', web_wechat_men: contact.sex == 'male'}"></i>
+            </div>
+            <div class="meta_area">
+              <div class="meta_item">
+                <label class="label">个性签名：</label>
+                <p class="value" contenteditable="true">{{ contact.signature }}</p>
               </div>
             </div>
           </div>
         </div>
-        <div class="dialog_ft">
-          <a href="javascript:;" class="button_default">确定</a>
-        </div>
-        <div class="ngdialog-close"></div>
       </div>
     </div>
-    <div v-if="showFeedback">
-      <feedback v-on:hfb="hiddenFeedback"></feedback>
+    <div v-if="showSystemMenu" v-bind:style="{ height: '100%' }">
+      <div class="overlay_mask" v-on:click="showSystemMenu=false"></div>
+      <div id="mmpop_system_menu" class="mmpop system_menu" tabindex="-1">
+        <ul class="dropdown_menu">
+          <li>
+            <a tabindex="-1" href="javascript:;" title="发起聊天" v-on:click="createChatroom">
+              <i class="menuicon_chat"></i>发起聊天
+            </a>
+          </li>
+          <li>
+            <a tabindex="-1" href="javascript:;" title="关闭桌面通知">
+              <i class="menuicon_push_on"></i>关闭桌面通知
+            </a>
+          </li>
+          <li>
+            <a tabindex="-1" href="javascript:;" title="关闭声音">
+              <i class="menuicon_volume_on"></i>关闭声音
+            </a>
+          </li>
+          <li>
+            <a tabindex="-1" href="javascript:;" title="意见反馈" v-on:click="feedback">
+              <i class="menuicon_feedback"></i>意见反馈
+            </a>
+          </li>
+          <li class="last_child">
+            <a tabindex="-1" href="javascript:;" title="退出">
+              <i class="menuicon_quit"></i>退出
+            </a>
+          </li>
+        </ul>
+      </div>
     </div>
   </div>
 </template>
@@ -99,6 +99,7 @@
   import readList from './ReadList.vue'
   import contactItem from './ContactItem.vue'
   import contentView from './ContentView.vue'
+  import createChatroom from './CreateChatroom.vue'
 
   export default {
     components: {
@@ -108,7 +109,8 @@
       chatList,
       readList,
       contactItem,
-      contentView
+      contentView,
+      createChatroom
     },
     data() {
       return {
@@ -118,7 +120,13 @@
         showFeedback: false,
         showChats: true,
         showReads: false,
-        showContacts: false
+        showContacts: false,
+        showProfiles: false
+      }
+    },
+    computed: {
+      contact() {
+        return this.$store.state.contact
       }
     },
     methods: {
@@ -136,6 +144,9 @@
       hiddenFeedback() {
         this.showFeedback = false
       },
+      hiddenChatroom() {
+        this.showChatroom = false
+      },
       showChat() {
         this.showChats = true
         this.showReads = false
@@ -150,6 +161,9 @@
         this.showChats = false
         this.showReads = false
         this.showContacts = true
+      },
+      showProfile() {
+        this.showProfiles = !this.showProfiles
       }
     }
   }
@@ -553,5 +567,97 @@
 
   .panel_wrapper {
     height: 100%;
+  }
+
+  .profile_mini_wrap {
+    z-index: 999!important;
+    border-radius: 4px;
+    overflow: hidden;
+    box-shadow: rgba(0,0,0,.1) 0 5px 10px;
+  }
+
+  .scale-fade {
+    transition: all 0 cubic-bezier(0.25,.46,.45,.94);
+    transition-timing-function: cubic-bezier(0.25,.46,.45,.94)
+  }
+
+  .profile_mini_hd .avatar .img {
+    width: 220px;
+    height: 220px;
+    display: block;
+  }
+
+  .profile_mini_bd {
+    padding: 20px;
+    min-height: 74px;
+  }
+
+  .profile_mini_bd .nickname_area {
+    margin-bottom: 8px;
+  }
+
+  .profile_mini_bd .nickname {
+    font-weight: 400;
+    font-size: 18px;
+    display: inline-block;
+    vertical-align: middle;
+    max-width: 110px;
+    width: auto;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    word-wrap: normal;
+  }
+
+  .profile_mini_bd .meta_item {
+    overflow: hidden;
+  }
+
+  .profile_mini_bd .meta_item .label {
+    float: left;
+    font-size: 12px;
+    color: #888;
+  }
+
+  .profile_mini_bd .meta_item .value {
+    font-size: 12px;
+    color: #888;
+    width: 120px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    word-wrap: normal;
+  }
+
+  .scale-fade-enter {
+    transform: scale(0.7);
+    transition-duration: 150ms;
+    opacity: 0;
+  }
+
+  .scale-fade-enter-active {
+    transform: scale(1);
+    opacity: 1;
+  }
+
+  .scale-fade-leave {
+    transform: scale(1);
+    transition-duration: 150ms;
+    opacity: 1;
+  }
+
+  .scale-fade-leave-active {
+    transform: scale(0.7);
+    opacity: 0;
+  }
+
+  .overlay_mask {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10;
+    cursor: pointer;
   }
 </style>

@@ -20,7 +20,14 @@ const store = new Vuex.Store({
     currentChoose: {},
     contentIndex: 0,
     chatContent: [],
-    currentContact: {}
+    currentContact: {},
+    contact: {
+      username: '不觉细雨',
+      sex: 'male',
+      region: '浙江 杭州',
+      avatar: '//localhost:3000/img/user/bu.jpg',
+      signature: '母的鸡遇上公的鸡恰恰好生小鸡'
+    }
   },
 
   actions: {
