@@ -6,35 +6,35 @@
           <a>
             <img class="logo" src="../images/logo.png">
           </a>
-          <ul class="tab">
+          <ul class="rtab">
             <li v-bind:class="{ 'active': show_signin }" id="signin" @click="show_login">
-              <a class="btn btn-link">登录</a>
+              <a class="btns btn-link">登录</a>
             </li>
             <li v-bind:class="{ 'active': show_signup }" id="signup" @click="show_register">
-              <a class="btn btn-link">注册</a>
+              <a class="btns btn-link">注册</a>
             </li>
             <li id="wechat-signin">
-              <a class="btn btn-link">微信登录</a>
+              <a class="btns btn-link">微信登录</a>
             </li>
           </ul>
         </div>
-        <div class="box" id="signin-box" v-if="show_signin">
+        <div class="boxs" id="signin-box" v-if="show_signin">
           <div class="login-body">
-            <form>
+            <form novalidate>
               <div class="form-group form-group-icon">
                 <input class="input-lg form-input email" name="email" placeholder="Email 地址">
                 <div class="form-icon">
-                  <i class="el-icon-message"></i>
+                  <i class="fa fa-envelope-o"></i>
                 </div>
               </div>
               <div class="form-group form-group-icon">
                 <input class="input-lg form-input password" name="password" placeholder="密码" type="password">
                 <div class="form-icon">
-                  <i class="el-icon-check"></i>
+                  <i class="fa fa-lock"></i>
                 </div>
               </div>
               <div class="form-group">
-                <button class="btn btn-primary btn-block btn-lg submit" @click="login">登入</button>
+                <button class="btns btns-primary btns-block btns-lg submit">登入</button>
               </div>
             </form>
           </div>
@@ -44,29 +44,34 @@
             </p>
           </div>
         </div>
-        <div class="box" id="signup-box" v-if="show_signup">
+        <div class="boxs" id="signup-box" v-if="show_signup">
           <div class="login-body">
-            <form class="new_user" id="new_user">
+            <form class="new_user" id="new_user" novalidate @submit.prevent="regSubmit">
               <div class="form-group form-group-icon">
-                <input class="input-lg form-input name" name="user[name]" placeholder="姓名">
+                <input class="input-lg form-input name" name="user[name]" type="text" placeholder="用户名" v-model="username">
                 <div class="form-icon">
-                  <i class="el-icon-check"></i>
+                  <i class="fa fa-user"></i>
                 </div>
               </div>
+              <div class="help-block" v-if="errors.username">{{ errors.username }}</div>
+              <div class="help-block" v-if="mongoErrs.rId">{{ mongoErrs.rId.message }}</div>
               <div class="form-group form-group-icon">
-                <input class="input-lg form-input email" name="user[email]" placeholder="Email 地址">
+                <input class="input-lg form-input email" name="user[email]" type="email" placeholder="Email 地址" v-model="rEmail">
                 <div class="form-icon">
-                  <i class="el-icon-message"></i>
+                  <i class="fa fa-envelope-o"></i>
                 </div>
               </div>
+              <div class="help-block" v-if="errors.rEmail">{{ errors.rEmail }}</div>
+              <div class="help-block" v-if="mongoErrs.rEmail">{{ mongoErrs.rEmail.message }}</div>
               <div class="form-group form-group-icon">
-                <input class="input-lg form-input password" name="user[password]" placeholder="密码" type="password">
+                <input class="input-lg form-input password" name="user[password]" placeholder="密码" type="password" v-model="rPassword">
                 <div class="form-icon">
-                  <i class="el-icon-check"></i>
+                  <i class="fa fa-lock"></i>
                 </div>
               </div>
+              <div class="help-block" v-if="errors.rPassword">{{ errors.rPassword }}</div>
               <div class="form-group">
-                <button class="btn btn-primary btn-block btn-lg submit" type="submit">免费注册</button>
+                <button class="btns btns-primary btns-block btns-lg submit" type="submit">免费注册</button>
               </div>
             </form>
           </div>
@@ -77,13 +82,34 @@
 </template>
 
 <script>
+  import axios from 'axios'
 
   export default {
     data() {
       return {
         show_signin: true,
         show_signup: false,
-        show_wechat: false
+        show_wechat: false,
+        username: '',
+        rEmail: '',
+        rPassword: '',
+        mongoErrs: {}
+      }
+    },
+    computed: {
+      errors() {
+        return this.$vuerify.$errors
+      }
+    },
+    vuerify: {
+      username: {
+        test: /\w{4,}/,
+        message: '用户名至少4个字符'
+      },
+      rEmail: 'email',
+      rPassword: {
+        test: /\w{4,}/,
+        message: '密码至少4个字符'
       }
     },
     methods: {
@@ -95,8 +121,26 @@
         this.show_signin = false
         this.show_signup = true
       },
-      login() {
-
+      regSubmit() {
+        let self = this
+        if (this.$vuerify.check()) {
+          let regData = {
+            id: this.username,
+            email: this.rEmail,
+            password: this.rPassword
+          }
+          axios.post('http://127.0.0.1:3000/register', regData)
+                  .then(function (response){
+                    let item = response.data
+                    self.regSuccess(item)
+                  })
+                  .catch(function (err) {
+                    console.log(err)
+                  })
+        }
+      },
+      regSuccess(item) {
+        this.$store.commit('REGISTER_SUCCESS', item)
       }
     }
   }
@@ -125,23 +169,23 @@
     width: 70px
   }
 
-  ul.tab {
+  ul.rtab {
    /* margin-top: 30px;*/
     border-bottom: 0;
     text-align: center;
   }
 
-  ul.tab li {
+  ul.rtab li {
     position: relative;
     display: inline-block;
     line-height: 30px;
   }
 
-  ul.tab li a {
+  ul.rtab li a {
     display: inline-block;
   }
 
-  ul.tab li::after {
+  ul.rtab li::after {
     content: "";
     position: absolute;
     left: 50%;
@@ -152,19 +196,19 @@
     transition: all 0.2s ease-out;
   }
 
-  ul.tab li.active::after {
+  ul.rtab li.active::after {
     transform: translateX(-50%) scaleX(1)
   }
 
-  .tab a {
+  .rtab a {
     margin: 20px;
   }
 
-  .btn.btn-link {
+  .btns.btn-link {
     color: rgba(39,54,78,0.6);
   }
 
-  .btn {
+  .btns {
     cursor: pointer;
     user-select: none;
     outline: none;
@@ -179,19 +223,19 @@
     border: none;
   }
 
-  .btn.btn-link {
+  .btns.btn-link {
     color: rgba(39,54,78,0.6);
   }
 
-  .btn.btn-link:hover {
+  .btns.btn-link:hover {
     color: #27364e;
   }
 
-  .btn.btn-link.lang {
+  .btns.btn-link.lang {
     color: rgba(39,54,78,0.6);
   }
 
-  .btn.btn-link.active {
+  .btns.btn-link.active {
     color: #f55d54;
   }
 
@@ -222,6 +266,7 @@
     height: 100%;
     outline: none;
     border: 1px solid #e0e0e0;
+    box-sizing: border-box;
   }
 
   .form-group .form-input:focus {
@@ -252,7 +297,7 @@
     margin-top: 13px;
   }
 
-  .btn.btn-lg {
+  .btns.btns-lg {
     padding: 0;
     margin: 0 10px;
     width: 166px;
@@ -261,24 +306,36 @@
     line-height: 48px;
   }
 
-  .btn.submit {
+  .btns.submit {
     width: 100%;
     height: 100%;
     margin: 5px 0;
   }
 
-  .btn.btn-primary {
+  .btns.btns-primary {
     color: white;
     border: 1px solid transparent;
     background: #f55d54;
     box-shadow: 0px 6px 20px 0px rgba(245,92,84,0.16)
   }
 
-  .btn.btn-primary:hover {
+  .btns.btns-primary:hover {
     background: #ff7c75
   }
 
   .login-box .login-footer {
     margin: 20px 0;
+  }
+
+  .help-block {
+    margin: 10px 0;
+    color: #6b6b6b;
+    text-align: left;
+  }
+
+  .help-block:before {
+    content: 'x_x';
+    color: #e6352c;
+    margin-right: 5px;
   }
 </style>

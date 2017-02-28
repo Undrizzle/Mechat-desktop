@@ -30,7 +30,7 @@
                         </div>
                     </div>
                     <div class="action_area">
-                        <a class="button" href="javascript:;">发消息</a>
+                        <a class="button" href="javascript:;" v-on:click="chat">发消息</a>
                     </div>
                 </div>
             </div>
@@ -53,6 +53,10 @@
                     return false
                 }
                 return true
+            },
+            chat() {
+                let chatMembers = this.$store.state.currentChoose
+                this.$store.commit('OPEN_CHAT', chatMembers)
             }
         }
     }

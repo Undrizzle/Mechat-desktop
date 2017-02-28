@@ -4,6 +4,15 @@ import store from './store'
 import router from './router'
 import { sync } from 'vuex-router-sync'
 import * as filters from './filters'
+import Vuerify from 'vuerify'
+
+//使用verify
+Vue.use(Vuerify)
+
+//获取locale配置
+//const localeState = localStorage.getItem('state')
+
+//Object.assign({}, store.state, localeState)
 
 // sync the router with the vuex store.
 // this registers `store.state.route`

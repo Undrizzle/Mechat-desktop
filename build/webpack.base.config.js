@@ -7,8 +7,6 @@ module.exports = {
     app: './src/client-entry.js',
     vendor: [
       'es6-promise',
-      'firebase/app',
-      'firebase/database',
       'vue',
       'vue-router',
       'vuex',

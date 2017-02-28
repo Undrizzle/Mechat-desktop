@@ -3,8 +3,8 @@
         <div class="box_hd">
             <div id="chatRoomMembersWrap"></div>
             <div class="title_wrap">
-                <div class="title poi">
-                    <a class="title_name" ></a>
+                <div class="title poi" v-if="currentContact.members">
+                    <a class="title_name" >{{ currentContact.members.remark || currentContact.members.username }}</a>
                     <span class="title_count"></span>
                     <i class="web_wechat_down_icon" v-if="currentContact.members"></i>
                 </div>
@@ -12,7 +12,7 @@
         </div>
         <div class="box_bd chat_bd">
             <div v-if="chatContent.length < 1" class="message_empty">
-                <i class="web_wechat_nomes_icon" v-if="!currentContact.members"></i>
+                <i class="web_wechat_nomes_icon" v-if="!currentContact"></i>
                 <p v-if="currentContact.members">暂时没有消息</p>
                 <p v-if="!currentContact.members">未选择聊天</p>
             </div>
@@ -105,6 +105,7 @@
         height: 10px;
         vertical-align: middle;
         display: inline-block;
+        margin-left: 5px;
     }
 
     .chat .box_bd {

@@ -1,23 +1,24 @@
 <template>
   <div id="app" class="ht100">
-    <div v-if="isLogin" class="ht100">
+    <div v-if="!contact.id" class="ht100">
       <Comm></Comm>
     </div>
-
+    <Signin v-if="contact.id"></Signin>
   </div>
 </template>
 
 <script>
-  //import Signin from './components/Signin.vue'
+  import Signin from './components/Signin.vue'
   import Comm from './components/Comm.vue'
 
   export default {
     components: {
-      Comm
+      Comm,
+      Signin
     },
-    data() {
-      return {
-        isLogin: true
+    computed: {
+      contact() {
+        return this.$store.state.contact
       }
     }
   }
@@ -41,7 +42,7 @@
   }
 
   .sign {
-    background: linear-gradient(to bottom, #feefee 0%, #fff 30%, #fff 100%) repeat-x;
+    background: linear-gradient(to bottom, #feefee 0%, #fff 100%, #fff 100%) repeat-x;
   }
 
   a {
