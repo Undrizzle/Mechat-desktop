@@ -1,6 +1,6 @@
 # Mechat-desktop
 
-An example built with Vue 2.0 + vue-router + vuex.
+An example built with Vue 2.0 + vuex.
 
 <p align="center">
     <img src="./screenshots/login.jpg" width="700px">
