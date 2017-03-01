@@ -11,10 +11,31 @@
             </div>
         </div>
         <div class="box_bd chat_bd">
-            <div v-if="chatContent.length < 1" class="message_empty">
-                <i class="web_wechat_nomes_icon" v-if="!currentContact"></i>
-                <p v-if="currentContact.members">暂时没有消息</p>
-                <p v-if="!currentContact.members">未选择聊天</p>
+            <div v-if="currentContact.members">
+                <div v-if="chatContents.length < 1" class="message_empty">
+                    <i class="web_wechat_nomes_icon" v-if="!currentContact"></i>
+                    <p v-if="currentContact.members">暂时没有消息</p>
+                    <p v-if="!currentContact.members">未选择聊天</p>
+                </div>
+                <div v-else>
+                    <div v-for="chatContent in chatContents">
+                        <div class="message" v-bind:class="{ 'me': chatContent.from == 0, 'you': chatContent.from == 1 }">
+                            <p class="message_system">
+                                <span class="content">{{ chatContent.time }}</span>
+                            </p>
+                            <img class="avatar" v-bind:src="chatContent.avatar" v-bind:title="chatContent.username">
+                            <div class="content">
+                                <div class="bubble" v-bind:class="{ 'bubble_primary': chatContent.from == 0, 'bubble_default': chatContent.from == 1, 'left': chatContent.from == 1, 'right': chatContent.from == 0 }">
+                                    <div class="bubble_cont">
+                                        <div class="plain">
+                                            <pre>{{ chatContent.message }}</pre>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="box_ft" v-if="currentContact.members">
@@ -47,11 +68,14 @@
             }
         },
         computed: {
-            chatContent() {
-                return this.$store.state.chatContent
+            chatContents() {
+                return this.$store.state.chatContents
             },
             currentContact() {
                 return this.$store.state.currentContact
+            },
+            contact() {
+                return this.$store.state.contact
             }
         },
         components: {
@@ -211,5 +235,107 @@
         height: 90px;
         vertical-align: middle;
         display: inline-block;
+    }
+
+    .message {
+        margin-bottom: 16px;
+        float: left;
+        width: 100%;
+    }
+
+    .message.me {
+        float: right;
+        text-align: right;
+        clear: right;
+    }
+
+    .message_system {
+        text-align: center;
+        margin: 10px auto;
+        max-width: 50%;
+    }
+
+    .message_system .content {
+        display: inline-block;
+        background-color: #dcdcdc;
+        font-size: 12px;
+        padding: 1px 18px;
+        color: #fff;
+        border-radius: 2px;
+    }
+
+    .message.me .content {
+        overflow: hidden;
+    }
+
+    .message .content {
+        overflow: hidden;
+    }
+
+    .message.me .avatar {
+        float: right
+    }
+
+    .message .avatar {
+        width: 40px;
+        height: 40px;
+        border-radius: 2px;
+        float: left;
+        cursor: pointer;
+    }
+
+    .bubble {
+        max-width: 500px;
+        min-height: 1em;
+        display: inline-block;
+        vertical-align: top;
+        position: relative;
+        text-align: left;
+        font-size: 14px;
+        border-radius: 3px;
+        margin: 0 10px;
+    }
+
+    .bubble.bubble_primary {
+        background-color: #b2e281;
+    }
+
+    .bubble.bubble_primary.right.arrow_primary:before, .bubble.bubble_primary.right:after {
+        border-left-color: #b2e281;
+        border-left-width: 4px;
+    }
+
+    .bubble.right:after, .bubble.right:before {
+        left: 100%;
+    }
+
+    .bubble.left:after {
+        border-right-color: #fff;
+        border-right-width: 4px;
+    }
+
+    .bubble.left:after, .bubble.left:before {
+        right: 100%;
+    }
+
+    .bubble:after, .bubble:before {
+        position: absolute;
+        top: 14px;
+        border: 6px solid transparent;
+        content: '';
+    }
+
+    .bubble_cont {
+        word-wrap: break-word;
+        word-break: break-all;
+        min-height: 25px;
+    }
+
+    .bubble_cont .plain {
+        padding: 9px 13px;
+    }
+
+    .bubble.bubble_default {
+        background-color: #fff;
     }
 </style>
