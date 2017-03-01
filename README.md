@@ -3,7 +3,7 @@
 An example built with Vue 2.0 + vue-router + vuex.
 
 <p align="center">
-    <img src="./screenshots/mechat.jpeg" width="700px">
+    <img src="./screenshots/mechat.jpg" width="700px">
 </p>
 
 ## Build Setup
