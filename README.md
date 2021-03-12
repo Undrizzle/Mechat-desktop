@@ -4,7 +4,6 @@ An example built with Vue 2.0 + vuex.
 
 <p align="center">
     <img src="./screenshots/login.jpg" width="700px">
-    <img src="http://122.51.127.114/images/architecture.jpg">
 </p>
 
 ## Build Setup
